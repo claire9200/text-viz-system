@@ -3,6 +3,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import re
 import nltk
+nltk.data.path.append("nltk_data")
 import networkx as nx
 import plotly.graph_objects as go
 import numpy as np
