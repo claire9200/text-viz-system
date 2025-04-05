@@ -1,0 +1,12 @@
+streamlit
+matplotlib
+wordcloud
+nltk
+networkx
+plotly
+gensim
+textblob
+vaderSentiment
+beautifulsoup4
+requests
+PyMuPDF
