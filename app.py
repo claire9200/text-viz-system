@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import re
 import nltk
 nltk.data.path.append("nltk_data")
+from nltk.tokenize import PunktSentenceTokenizer
+from nltk.tokenize import word_tokenize
+punkt_tokenizer = PunktSentenceTokenizer()
 import networkx as nx
 import plotly.graph_objects as go
 import numpy as np
@@ -180,7 +183,7 @@ if st.button("Show Phrase Network"):
 # AIGC Detection
 # ------------------------
 def compute_aigc_features(text):
-    sentences = nltk.sent_tokenize(text)
+    sentences = punkt_tokenizer.tokenize(text)
     words = nltk.word_tokenize(text.lower())
     avg_sent_len = np.mean([len(s.split()) for s in sentences]) if sentences else 0
     lexical_richness = len(set(words)) / len(words) if words else 0
@@ -286,7 +289,7 @@ def run_sentiment_vader(text):
 def run_sentiment_long(text):
     st.subheader("Long Text Mode")
     analyzer = SentimentIntensityAnalyzer()
-    sentences = nltk.sent_tokenize(text)
+    sentences = punkt_tokenizer.tokenize(text)
     if not sentences:
         st.warning("No sentences found for sentiment analysis.")
         return
