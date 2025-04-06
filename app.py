@@ -152,7 +152,7 @@ min_freq = st.slider("Minimum bigram frequency", 1, 20, 5)
 k_value = st.slider("Graph spacing (distance between nodes)", 0.1, 2.0, 0.7, 0.1)
 
 def draw_phrase_network(text, min_freq, k_value):
-    tokens = nltk.word_tokenize(text.lower())
+    tokens = punkt_tokenizer.tokenize(text.lower())
     bigrams = list(nltk.bigrams(tokens))
     freq_dist = nltk.FreqDist(bigrams)
     filtered_bigrams = [(w1, w2) for (w1, w2), freq in freq_dist.items() if freq >= min_freq]
@@ -184,7 +184,7 @@ if st.button("Show Phrase Network"):
 # ------------------------
 def compute_aigc_features(text):
     sentences = punkt_tokenizer.tokenize(text)
-    words = nltk.word_tokenize(text.lower())
+    words = punkt_tokenizer.tokenize(text.lower())
     avg_sent_len = np.mean([len(s.split()) for s in sentences]) if sentences else 0
     lexical_richness = len(set(words)) / len(words) if words else 0
     phrase_counts = Counter(nltk.ngrams(words, 2))
@@ -237,7 +237,7 @@ from gensim import corpora
 from wordcloud import STOPWORDS
 
 def run_topic_modeling(text, num_topics=3):
-    tokens = [word for word in nltk.word_tokenize(text.lower()) if word.isalpha() and word not in STOPWORDS]
+    tokens = [word for word in punkt_tokenizer.tokenize(text.lower()) if word.isalpha() and word not in STOPWORDS]
     if not tokens or len(tokens) < 10:
         st.warning("Not enough content for topic modeling.")
         return
