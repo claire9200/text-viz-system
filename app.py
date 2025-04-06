@@ -17,7 +17,6 @@ from bs4 import BeautifulSoup
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from io import BytesIO, StringIO
 import base64
-nltk.download('punkt')
 
 # ------------------------
 # Download AIGC Results
