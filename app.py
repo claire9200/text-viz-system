@@ -184,20 +184,26 @@ if st.button("Show Phrase Network"):
 def compute_aigc_features(text):
     sentences = punkt_tokenizer.tokenize(text)
     word_tokenizer = TreebankWordTokenizer()
-    words = word_tokenizer.tokenize(text.lower())
+    words = [w for w in word_tokenizer.tokenize(text.lower()) if w.isalpha()]
+    
     avg_sent_len = np.mean([len(s.split()) for s in sentences]) if sentences else 0
     lexical_richness = len(set(words)) / len(words) if words else 0
+
     phrase_counts = Counter(nltk.ngrams(words, 2))
-    repeated = sum(1 for count in phrase_counts.values() if count > 1)
-    repetition_score = repeated / len(phrase_counts) if phrase_counts else 0
+    total_bigram_occurrences = sum(phrase_counts.values())
+    repeated_occurrences = sum(count for count in phrase_counts.values() if count > 1)
+    repetition_score = repeated_occurrences / total_bigram_occurrences if total_bigram_occurrences else 0
+
     sentence_lengths = [len(s.split()) for s in sentences]
     burstiness = np.std(sentence_lengths) if sentence_lengths else 0
+
     return {
         "Avg Sentence Length": avg_sent_len / 30,
         "Lexical Richness": lexical_richness,
         "Repetition Score": repetition_score,
         "Burstiness": burstiness / 20
     }
+
 
 def display_radar_chart(features):
     labels = list(features.keys())
