@@ -183,7 +183,8 @@ if st.button("Show Phrase Network"):
 # ------------------------
 def compute_aigc_features(text):
     sentences = punkt_tokenizer.tokenize(text)
-    words = punkt_tokenizer.tokenize(text.lower())
+    word_tokenizer = TreebankWordTokenizer()
+    words = word_tokenizer.tokenize(text.lower())
     avg_sent_len = np.mean([len(s.split()) for s in sentences]) if sentences else 0
     lexical_richness = len(set(words)) / len(words) if words else 0
     phrase_counts = Counter(nltk.ngrams(words, 2))
